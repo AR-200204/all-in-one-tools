@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Convert your Annual Salary to Hourly Wage instantly. Simple, accurate pay converter.">
+    <title>Salary to Hourly Calculator - Pay Converter</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <header></header>
+    <main class="container" style="padding: 2rem 1rem;">
+        <div class="tool-layout">
+            <!-- Main Tool Area -->
+            <div class="main-content">
+                <h1>Salary to Hourly Calculator</h1>
+                <p>Find out exactly how much you earn per hour based on your annual salary.</p>
+
+                <div class="tool-card">
+                    <div class="input-group">
+                        <label>Annual Salary ($)</label>
+                        <input type="number" id="annualSalary" placeholder="e.g. 50000">
+                    </div>
+                    <div class="input-group">
+                        <label>Hours per Week</label>
+                        <input type="number" id="hoursPerWeek" value="40">
+                    </div>
+                    <div class="input-group">
+                        <label>Weeks per Year</label>
+                        <input type="number" id="weeksPerYear" value="52">
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button id="calcBtn" class="btn w-full">Convert</button>
+                    </div>
+
+                    <div class="result-box hidden" id="resultArea">
+                        <p class="text-muted text-sm uppercase">Hourly Rate</p>
+                        <div id="hourlyRate" style="font-size: 3rem; color: var(--primary);">$0.00</div>
+                        <div class="grid grid-cols-2 gap-4 mt-4 text-left">
+                            <div>
+                                <strong>Weekly:</strong> <span id="weeklyPay">$0.00</span>
+                            </div>
+                            <div>
+                                <strong>Monthly:</strong> <span id="monthlyPay">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-4 text-sm bg-gray-100 rounded">
+                        <strong>Note:</strong> This checks gross income before taxes.
+                    </div>
+                </div>
+
+                <!-- Explanatory Content -->
+                <article class="content-block mt-4">
+                    <h2>How to Calculate Hourly Wage</h2>
+                    <p>The standard formula for converting salary to an hourly rate is simple: Divide your annual salary
+                        by the total number of working hours in a year.</p>
+                    <p><strong>Standard Year:</strong> Most full-time jobs assume 40 hours per week for 52 weeks a year,
+                        totaling 2,080 hours.</p>
+                    <p>For example, if you make $52,000 a year: $52,000 / 2,080 = $25.00 per hour.</p>
+                </article>
+
+                <!-- Related Articles Link -->
+                <div class="mt-4 p-4 bg-gray-100 rounded">
+                    <h3>Related Guides</h3>
+                    <a href="/articles/money-life-calculators-guide.html" class="text-primary font-bold">Financial
+                        Planning Guide &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <h3>Money Tools</h3>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="loan-emi.html">Loan Calculator</a></li>
+                    <li><a href="savings-goal.html">Savings Goal</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="../js/main.js"></script>
+    <script>
+        const calcBtn = document.getElementById('calcBtn');
+
+        calcBtn.addEventListener('click', () => {
+            const salary = parseFloat(document.getElementById('annualSalary').value);
+            const hours = parseFloat(document.getElementById('hoursPerWeek').value);
+            const weeks = parseFloat(document.getElementById('weeksPerYear').value);
+
+            if (!salary || !hours || !weeks) { alert('Please check your inputs.'); return; }
+
+            const totalHours = hours * weeks;
+            const hourly = salary / totalHours;
+            const weekly = salary / weeks;
+            const monthly = salary / 12;
+
+            document.getElementById('hourlyRate').innerText = '$' + hourly.toFixed(2);
+            document.getElementById('weeklyPay').innerText = '$' + weekly.toFixed(2);
+            document.getElementById('monthlyPay').innerText = '$' + monthly.toFixed(2);
+            document.getElementById('resultArea').classList.remove('hidden');
+        });
+    </script>
+</body>
+
+</html>

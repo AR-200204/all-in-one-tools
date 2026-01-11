@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free Online To-Do List. Simple task manager with local storage save.">
+    <title>To-Do List - Online Task Manager</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <header></header>
+    <main class="container" style="padding: 2rem 1rem;">
+        <div class="tool-layout">
+            <div class="main-content">
+                <h1>To-Do List</h1>
+                <p>Keep track of your tasks. Data is saved in your browser.</p>
+
+                <div class="tool-card">
+                    <div class="flex gap-2">
+                        <input type="text" id="taskInput" placeholder="Add a new task..." class="w-full">
+                        <button id="addBtn" class="btn">Add</button>
+                    </div>
+                    <ul id="taskList" class="mt-4 flex flex-col gap-2"></ul>
+                    <button id="clearBtn" class="btn btn-outline text-sm mt-4">Clear All</button>
+                </div>
+
+                <article class="content-block mt-4">
+                    <h2>Why use a To-Do List?</h2>
+                    <p>Writing things down frees up cognitive load.</p>
+                </article>
+            </div>
+            <aside class="sidebar">
+                <h3>Productivity Tools</h3>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="pomodoro.html">Pomodoro Timer</a></li>
+                    <li><a href="timer.html">Timer</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="../js/main.js"></script>
+    <script>
+        const input = document.getElementById('taskInput');
+        const list = document.getElementById('taskList');
+
+        function load() {
+            const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+            list.innerHTML = '';
+            tasks.forEach(t => add(t.text, t.done, false));
+        }
+
+        function save() {
+            const tasks = [];
+            list.querySelectorAll('li').forEach(li => {
+                tasks.push({ text: li.querySelector('span').innerText, done: li.classList.contains('opacity-50') });
+            });
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
+        function add(text, done = false, shouldSave = true) {
+            if (!text) return;
+            const li = document.createElement('li');
+            li.className = "p-2 border rounded flex justify-between items-center bg-white";
+            if (done) li.classList.add('opacity-50', 'line-through');
+
+            li.innerHTML = `<span>${text}</span> <button class="text-red-500 font-bold">X</button>`;
+
+            li.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'BUTTON') {
+                    li.classList.toggle('opacity-50');
+                    li.classList.toggle('line-through');
+                    save();
+                }
+            });
+
+            li.querySelector('button').addEventListener('click', () => {
+                li.remove();
+                save();
+            });
+
+            list.appendChild(li);
+            if (shouldSave) save();
+        }
+
+        document.getElementById('addBtn').addEventListener('click', () => {
+            add(input.value);
+            input.value = '';
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            list.innerHTML = '';
+            save();
+        });
+
+        load();
+    </script>
+</body>
+
+</html>

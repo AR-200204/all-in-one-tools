@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Free Online Word Counter and Character Count Tool. Check text length, words, and paragraphs instantly.">
+    <title>Word Counter - Character & Word Count Tool</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <header></header>
+    <main class="container" style="padding: 2rem 1rem;">
+        <div class="tool-layout">
+            <div class="main-content">
+                <h1>Word Counter</h1>
+                <p>Type or paste your text below to see word and character counts in real-time.</p>
+
+                <div class="tool-card">
+                    <textarea id="textInput" rows="10" class="w-full p-2 border rounded"
+                        placeholder="Start typing..."></textarea>
+
+                    <div class="grid grid-cols-2 gap-4 mt-4 text-center">
+                        <div class="p-4 bg-gray-100 rounded">
+                            <div id="wordCount" style="font-size: 2rem; font-weight: bold; color: var(--primary);">0
+                            </div>
+                            <div class="text-sm text-muted">Words</div>
+                        </div>
+                        <div class="p-4 bg-gray-100 rounded">
+                            <div id="charCount" style="font-size: 2rem; font-weight: bold; color: var(--primary);">0
+                            </div>
+                            <div class="text-sm text-muted">Characters</div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-2 text-sm text-muted">
+                        <span id="paraCount">0</span> Paragraphs | <span id="sentenceCount">0</span> Sentences
+                    </div>
+                    <div class="text-center mt-4">
+                        <button id="clearBtn" class="btn btn-outline text-sm">Clear Text</button>
+                    </div>
+                </div>
+
+                <article class="content-block mt-4">
+                    <h2>About This Word Counter</h2>
+                    <p>Whether you are writing an essay, a blog post, or a tweet, knowing your word count is essential.
+                        Twitter limits you to 280 characters, while a good blog post is often over 1,000 words.</p>
+                    <p>This tool works instantly in your browser. No data is sent to any server.</p>
+                </article>
+
+                <div class="mt-4 p-4 bg-gray-100 rounded">
+                    <h3>Related Guides</h3>
+                    <a href="/articles/productivity-tools-guide.html" class="text-primary font-bold">Productivity Guide
+                        &rarr;</a>
+                </div>
+            </div>
+
+            <aside class="sidebar">
+                <h3>Writing Tools</h3>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="typing-speed.html">Typing Speed</a></li>
+                    <li><a href="todo-list.html">To-Do List</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="../js/main.js"></script>
+    <script>
+        const textInput = document.getElementById('textInput');
+        const wordCount = document.getElementById('wordCount');
+        const charCount = document.getElementById('charCount');
+        const paraCount = document.getElementById('paraCount');
+        const sentenceCount = document.getElementById('sentenceCount');
+        const clearBtn = document.getElementById('clearBtn');
+
+        function updateCounts() {
+            const text = textInput.value;
+            const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+            const chars = text.length;
+            const paras = text.trim() === '' ? 0 : text.split(/\n+/).filter(p => p.trim().length > 0).length;
+            const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+
+            wordCount.innerText = words;
+            charCount.innerText = chars;
+            paraCount.innerText = paras;
+            sentenceCount.innerText = sentences;
+        }
+
+        textInput.addEventListener('input', updateCounts);
+        clearBtn.addEventListener('click', () => {
+            textInput.value = '';
+            updateCounts();
+        });
+    </script>
+</body>
+
+</html>

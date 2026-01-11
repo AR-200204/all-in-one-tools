@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Test your Typing Speed (WPM) online. Simple, free typing test to improve your keyboard skills.">
+    <title>Typing Speed Test - Check WPM</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <header></header>
+    <main class="container" style="padding: 2rem 1rem;">
+        <div class="tool-layout">
+            <div class="main-content">
+                <h1>Typing Speed Test</h1>
+                <p>How fast can you type? Find out your Words Per Minute (WPM).</p>
+
+                <div class="tool-card">
+                    <div class="p-4 bg-gray-100 rounded mb-4 font-mono" id="quote" style="line-height: 1.8;">
+                        The quick brown fox jumps over the lazy dog. Programming is the art of telling another human
+                        what you want the computer to do. Success is not final, failure is not fatal: it is the courage
+                        to continue that counts.
+                    </div>
+
+                    <textarea id="input" class="w-full p-2 border rounded" rows="4"
+                        placeholder="Start typing the text above..."></textarea>
+
+                    <div class="flex justify-between items-center mt-4">
+                        <button id="resetBtn" class="btn btn-outline">Reset Test</button>
+                        <div style="font-size: 2rem; font-weight: bold; color: var(--primary);">
+                            <span id="wpm">0</span> WPM
+                        </div>
+                    </div>
+                </div>
+
+                <article class="content-block mt-4">
+                    <h2>Improving Typing Speed</h2>
+                    <p>The average typing speed is around 40 words per minute (WPM). Professional typists can exceed 100
+                        WPM.</p>
+                </article>
+            </div>
+            <aside class="sidebar">
+                <h3>Productivity Tools</h3>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="word-counter.html">Word Counter</a></li>
+                    <li><a href="todo-list.html">To-Do List</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="../js/main.js"></script>
+    <script>
+        const quote = document.getElementById('quote').innerText;
+        const input = document.getElementById('input');
+        const wpmDisplay = document.getElementById('wpm');
+        const resetBtn = document.getElementById('resetBtn');
+
+        let startTime = null;
+        let timer = null;
+
+        input.addEventListener('input', () => {
+            if (!startTime) {
+                startTime = new Date();
+                timer = setInterval(updateWPM, 1000);
+            }
+
+            if (input.value.trim() === quote.trim()) {
+                clearInterval(timer);
+                input.disabled = true;
+                input.style.borderColor = 'var(--success)';
+                updateWPM();
+            }
+        });
+
+        function updateWPM() {
+            const timeElapsed = (new Date() - startTime) / 1000 / 60; // in minutes
+            const wordsTyped = input.value.trim().split(/\s+/).length;
+            if (input.value.trim().length === 0) {
+                wpmDisplay.innerText = 0;
+                return;
+            }
+            const wpm = Math.round(wordsTyped / timeElapsed);
+            wpmDisplay.innerText = wpm;
+        }
+
+        resetBtn.addEventListener('click', () => {
+            input.value = '';
+            input.disabled = false;
+            input.style.borderColor = 'var(--border)';
+            clearInterval(timer);
+            startTime = null;
+            wpmDisplay.innerText = 0;
+        });
+    </script>
+</body>
+
+</html>

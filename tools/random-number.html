@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free Random Number Generator. Pick a number between any range instantly.">
+    <title>Random Number Generator - RNG Tool</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <header></header>
+    <main class="container" style="padding: 2rem 1rem;">
+        <div class="tool-layout">
+            <div class="main-content">
+                <h1>Random Number Generator</h1>
+                <p>Generate a random number between a minimum and maximum value.</p>
+
+                <div class="tool-card">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label>Min</label>
+                            <input type="number" id="minVal" value="1">
+                        </div>
+                        <div class="input-group">
+                            <label>Max</label>
+                            <input type="number" id="maxVal" value="100">
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button id="genBtn" class="btn w-full">Generate</button>
+                        <div id="result"
+                            style="font-size: 4rem; font-weight: bold; color: var(--primary); margin-top: 2rem;">?</div>
+                    </div>
+                </div>
+
+                <article class="content-block mt-4">
+                    <h2>True Randomness</h2>
+                    <p>Computers typically generate "pseudo-random" numbers. For most casual needs like pick-a-number
+                        games or lottery simulations, this is perfectly sufficient.</p>
+                </article>
+
+                <div class="mt-4 p-4 bg-gray-100 rounded">
+                    <h3>Related Guides</h3>
+                    <a href="/articles/decision-tools-guide.html" class="text-primary font-bold">Decision Guide
+                        &rarr;</a>
+                </div>
+            </div>
+
+            <aside class="sidebar">
+                <h3>Random Tools</h3>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="dice-roller.html">Dice Roller</a></li>
+                    <li><a href="random-name-picker.html">Name Picker</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="../js/main.js"></script>
+    <script>
+        document.getElementById('genBtn').addEventListener('click', () => {
+            const min = parseInt(document.getElementById('minVal').value);
+            const max = parseInt(document.getElementById('maxVal').value);
+
+            if (min >= max) { alert('Max must be greater than Min'); return; }
+
+            const random = Math.floor(Math.random() * (max - min + 1)) + min;
+            const result = document.getElementById('result');
+
+            // Simple animation
+            let i = 0;
+            const interval = setInterval(() => {
+                result.innerText = Math.floor(Math.random() * (max - min + 1)) + min;
+                i++;
+                if (i > 10) {
+                    clearInterval(interval);
+                    result.innerText = random;
+                }
+            }, 50);
+        });
+    </script>
+</body>
+
+</html>

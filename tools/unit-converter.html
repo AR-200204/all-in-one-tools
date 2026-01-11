@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free Universal Unit Converter. Convert length, weight, temperature and more.">
+    <title>Unit Converter Tool</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <header></header>
+    <main class="container" style="padding: 2rem 1rem;">
+        <div class="tool-layout">
+            <div class="main-content">
+                <h1>Unit Converter</h1>
+                <p>Convert common units of measurement.</p>
+
+                <div class="tool-card">
+                    <div class="flex gap-4 mb-4">
+                        <button class="btn" id="lenTab">Length</button>
+                        <button class="btn btn-outline" id="weightTab">Weight</button>
+                    </div>
+
+                    <div id="lenInputs">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label>Meters</label>
+                                <input type="number" id="meters" class="w-full p-2 border rounded">
+                            </div>
+                            <div>
+                                <label>Feet</label>
+                                <input type="number" id="feet" class="w-full p-2 border rounded">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="weightInputs" class="hidden">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label>Kilograms</label>
+                                <input type="number" id="kgs" class="w-full p-2 border rounded">
+                            </div>
+                            <div>
+                                <label>Pounds</label>
+                                <input type="number" id="lbs" class="w-full p-2 border rounded">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <article class="content-block mt-4">
+                    <h2>Conversion Factors</h2>
+                    <p>1 Meter = 3.28084 Feet. 1 Kilogram = 2.20462 Pounds.</p>
+                </article>
+            </div>
+            <aside class="sidebar">
+                <h3>General Tools</h3>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="password-generator.html">Password Generator</a></li>
+                    <li><a href="age-calculator.html">Age Calculator</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="../js/main.js"></script>
+    <script>
+        const lenTab = document.getElementById('lenTab');
+        const weightTab = document.getElementById('weightTab');
+        const lenInputs = document.getElementById('lenInputs');
+        const weightInputs = document.getElementById('weightInputs');
+
+        lenTab.addEventListener('click', () => {
+            lenInputs.classList.remove('hidden'); weightInputs.classList.add('hidden');
+            lenTab.classList.add('btn'); lenTab.classList.remove('btn-outline');
+            weightTab.classList.add('btn-outline'); weightTab.classList.remove('btn');
+        });
+
+        weightTab.addEventListener('click', () => {
+            weightInputs.classList.remove('hidden'); lenInputs.classList.add('hidden');
+            weightTab.classList.add('btn'); weightTab.classList.remove('btn-outline');
+            lenTab.classList.add('btn-outline'); lenTab.classList.remove('btn');
+        });
+
+        // Logic
+        document.getElementById('meters').addEventListener('input', (e) => {
+            document.getElementById('feet').value = (e.target.value * 3.28084).toFixed(3);
+        });
+        document.getElementById('feet').addEventListener('input', (e) => {
+            document.getElementById('meters').value = (e.target.value / 3.28084).toFixed(3);
+        });
+
+        document.getElementById('kgs').addEventListener('input', (e) => {
+            document.getElementById('lbs').value = (e.target.value * 2.20462).toFixed(3);
+        });
+        document.getElementById('lbs').addEventListener('input', (e) => {
+            document.getElementById('kgs').value = (e.target.value / 2.20462).toFixed(3);
+        });
+    </script>
+</body>
+
+</html>

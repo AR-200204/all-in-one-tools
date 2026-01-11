@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Free Loan EMI Calculator. Calculate monthly payments, total interest, and amortization for loans.">
+    <title>Loan Calculator - Calculate EMI & Interest</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <header></header>
+    <main class="container" style="padding: 2rem 1rem;">
+        <div class="tool-layout">
+            <div class="main-content">
+                <h1>Loan Calculator</h1>
+                <p>Estimate your monthly payments for mortgages, auto loans, or personal loans.</p>
+
+                <div class="tool-card">
+                    <div class="input-group">
+                        <label>Loan Amount ($)</label>
+                        <input type="number" id="amount" value="10000">
+                    </div>
+                    <div class="input-group">
+                        <label>Interest Rate (%)</label>
+                        <input type="number" id="rate" value="5">
+                    </div>
+                    <div class="input-group">
+                        <label>Loan Term (Years)</label>
+                        <input type="number" id="years" value="5">
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button id="calcBtn" class="btn w-full">Calculate</button>
+                    </div>
+
+                    <div class="result-box hidden" id="resultArea">
+                        <p class="uppercase text-sm text-muted">Monthly Payment</p>
+                        <div id="monthlyPayment" style="font-size: 3rem; color: var(--primary);">$0.00</div>
+                        <div class="mt-4 text-left">
+                            <p>Total Interest: <strong id="totalInterest">$0.00</strong></p>
+                            <p>Total Cost: <strong id="totalCost">$0.00</strong></p>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-4 text-sm bg-blue-100 rounded">
+                        <strong>Disclaimer:</strong> This is an estimation. Actual rates vary by lender.
+                    </div>
+                </div>
+
+                <article class="content-block mt-4">
+                    <h2>How Loan Interest Works</h2>
+                    <p>This calculator uses the standard Amortization formula to determine your Equated Monthly
+                        Installment (EMI). A lower interest rate or a shorter term reduces total interest paid, but a
+                        shorter term increases monthly payments.</p>
+                </article>
+
+                <div class="mt-4 p-4 bg-gray-100 rounded">
+                    <h3>Related Guides</h3>
+                    <a href="/articles/money-life-calculators-guide.html" class="text-primary font-bold">Financial Guide
+                        &rarr;</a>
+                </div>
+            </div>
+
+            <aside class="sidebar">
+                <h3>Money Tools</h3>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="salary-to-hourly.html">Salary Converter</a></li>
+                    <li><a href="savings-goal.html">Savings Goal</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="../js/main.js"></script>
+    <script>
+        document.getElementById('calcBtn').addEventListener('click', () => {
+            const principal = parseFloat(document.getElementById('amount').value);
+            const rate = parseFloat(document.getElementById('rate').value) / 100 / 12;
+            const payments = parseFloat(document.getElementById('years').value) * 12;
+
+            if (!principal || !payments) return;
+
+            // Amortization Formula
+            const x = Math.pow(1 + rate, payments);
+            const monthly = (principal * x * rate) / (x - 1);
+
+            if (isFinite(monthly)) {
+                const total = monthly * payments;
+                const interest = total - principal;
+
+                document.getElementById('monthlyPayment').innerText = '$' + monthly.toFixed(2);
+                document.getElementById('totalCost').innerText = '$' + total.toFixed(2);
+                document.getElementById('totalInterest').innerText = '$' + interest.toFixed(2);
+                document.getElementById('resultArea').classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+
+</html>

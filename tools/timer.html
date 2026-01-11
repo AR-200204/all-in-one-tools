@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free Online Countdown Timer with Alarm. Set hours, minutes, and seconds.">
+    <title>Online Timer - Countdown Alarm</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <header></header>
+    <main class="container" style="padding: 2rem 1rem;">
+        <div class="tool-layout">
+            <div class="main-content">
+                <h1>Countdown Timer</h1>
+                <p>Set a custom timer for any task.</p>
+
+                <div class="tool-card text-center">
+                    <div class="flex justify-center gap-2 mb-4">
+                        <input type="number" id="h" placeholder="00" class="w-20 p-2 text-center text-xl border rounded"
+                            min="0"> :
+                        <input type="number" id="m" placeholder="00" class="w-20 p-2 text-center text-xl border rounded"
+                            min="0"> :
+                        <input type="number" id="s" placeholder="00" class="w-20 p-2 text-center text-xl border rounded"
+                            min="0">
+                    </div>
+
+                    <div id="display" style="font-size: 5rem; font-weight: bold; font-variant-numeric: tabular-nums;">
+                        00:00:00</div>
+
+                    <div class="flex justify-center gap-4 mt-4">
+                        <button id="start" class="btn">Start</button>
+                        <button id="stop" class="btn btn-outline">Stop</button>
+                        <button id="reset" class="btn btn-outline">Reset</button>
+                    </div>
+                </div>
+
+                <article class="content-block mt-4">
+                    <h2>About the Timer</h2>
+                    <p>Simple tools are often the best. This timer runs locally in your browser and plays a sound when
+                        finished.</p>
+                </article>
+            </div>
+            <aside class="sidebar">
+                <h3>Time Tools</h3>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="pomodoro.html">Pomodoro Timer</a></li>
+                    <li><a href="todo-list.html">To-Do List</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="../js/main.js"></script>
+    <script>
+        let timer;
+        let totalSeconds = 0;
+        const disp = document.getElementById('display');
+        const audio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
+
+        function update() {
+            const h = Math.floor(totalSeconds / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = totalSeconds % 60;
+            disp.innerText = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
+        document.getElementById('start').addEventListener('click', () => {
+            if (timer) clearInterval(timer);
+
+            const h = parseInt(document.getElementById('h').value) || 0;
+            const m = parseInt(document.getElementById('m').value) || 0;
+            const s = parseInt(document.getElementById('s').value) || 0;
+
+            if (totalSeconds === 0) totalSeconds = h * 3600 + m * 60 + s;
+            if (totalSeconds <= 0) return;
+
+            timer = setInterval(() => {
+                if (totalSeconds > 0) {
+                    totalSeconds--;
+                    update();
+                } else {
+                    clearInterval(timer);
+                    audio.play();
+                    alert('Time is up!');
+                }
+            }, 1000);
+        });
+
+        document.getElementById('stop').addEventListener('click', () => clearInterval(timer));
+        document.getElementById('reset').addEventListener('click', () => {
+            clearInterval(timer);
+            totalSeconds = 0;
+            update();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free Online Dice Roller. Roll 1 to 6 dice instantly. Random and fair.">
+    <title>Dice Roller - Online Dice Simulator</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .die {
+            font-size: 5rem;
+            line-height: 1;
+            color: var(--text-main);
+        }
+    </style>
+</head>
+
+<body>
+    <header></header>
+    <main class="container" style="padding: 2rem 1rem;">
+        <div class="tool-layout">
+            <div class="main-content">
+                <h1>Dice Roller</h1>
+                <p>Roll virtual dice for board games or decisions.</p>
+
+                <div class="tool-card text-center">
+                    <div id="diceContainer" class="flex justify-center flex-wrap gap-4 mb-8" style="min-height: 100px;">
+                        <div class="die">🎲</div>
+                    </div>
+
+                    <div class="flex justify-center gap-4 items-center">
+                        <label>Number of Dice:</label>
+                        <select id="numDice" class="p-2 border rounded">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                        <button id="rollBtn" class="btn">ROLL</button>
+                    </div>
+
+                    <div id="total" class="mt-4 font-bold text-xl text-muted"></div>
+                </div>
+
+                <article class="content-block mt-4">
+                    <h2>Random Numbers</h2>
+                    <p>We use a cryptographic random number generator where possible to ensure your rolls are fair.</p>
+                </article>
+            </div>
+            <aside class="sidebar">
+                <h3>Random Tools</h3>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="flip-a-coin.html">Flip a Coin</a></li>
+                    <li><a href="random-number.html">RNG</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="../js/main.js"></script>
+    <script>
+        const diceChars = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+        const container = document.getElementById('diceContainer');
+        const totalDisplay = document.getElementById('total');
+
+        document.getElementById('rollBtn').addEventListener('click', () => {
+            const num = parseInt(document.getElementById('numDice').value);
+            container.innerHTML = '';
+            let total = 0;
+
+            // Animation
+            const interval = setInterval(() => {
+                container.innerHTML = '';
+                for (let i = 0; i < num; i++) {
+                    const r = Math.floor(Math.random() * 6);
+                    const span = document.createElement('span');
+                    span.className = 'die';
+                    span.innerText = diceChars[r];
+                    container.appendChild(span);
+                }
+            }, 100);
+
+            setTimeout(() => {
+                clearInterval(interval);
+                container.innerHTML = '';
+                for (let i = 0; i < num; i++) {
+                    const r = Math.floor(Math.random() * 6);
+                    total += (r + 1);
+                    const span = document.createElement('span');
+                    span.className = 'die';
+                    span.innerText = diceChars[r];
+                    container.appendChild(span);
+                }
+                totalDisplay.innerText = "Total: " + total;
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>

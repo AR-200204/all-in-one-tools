@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Free Random Name Picker tool. Enter a list of names and pick a winner instantly. Perfect for raffles, classrooms, and contests.">
+    <title>Random Name Picker - Fair & Instant Winner Generator</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .winner-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            min-height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header></header>
+    <main class="container" style="padding: 2rem 1rem;">
+        <div class="tool-layout">
+            <!-- Main Tool Area -->
+            <div class="main-content">
+                <h1>Random Name Picker</h1>
+                <p>Enter your list of names below and let our algorithm pick a random winner instantly.</p>
+
+                <div class="tool-card">
+                    <div class="input-group">
+                        <label for="namesInput">Enter Names (one per line):</label>
+                        <textarea id="namesInput" rows="8" placeholder="Alice&#10;Bob&#10;Charlie&#10;David"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button id="pickBtn" class="btn">Pick a Winner</button>
+                        <button id="resetBtn" class="btn btn-outline" style="margin-left: 0.5rem;">Reset</button>
+                    </div>
+
+                    <div class="result-box" id="resultArea">
+                        Winner will appear here...
+                    </div>
+                </div>
+
+                <!-- Explanatory Content -->
+                <article class="content-block mt-4">
+                    <h2>What is a Random Name Picker?</h2>
+                    <p>A Random Name Picker is a digital utility designed to select an item from a list without any
+                        bias. Whether you are a teacher looking to pick a student for an answer, a raffle organizer
+                        choosing a prize winner, or a group of friends deciding who pays for dinner, fairness is key.
+                    </p>
+
+                    <p>Our tool uses advanced randomization algorithms (Math.random) to ensure that every name in your
+                        list has an exactly equal probability of being chosen. Unlike physical drawing from a hat, which
+                        can be prone to human error or bias (like folded papers sticking together), a digital picker
+                        removes all external variables.</p>
+
+                    <h3>Who Should Use This Tool?</h3>
+                    <ul style="list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem;">
+                        <li><strong>Teachers & Educators:</strong> Randomly select students for activities or Q&A
+                            sessions to ensure equal participation.</li>
+                        <li><strong>Event Organizers:</strong> Conduct fair giveaways and contests on social media or
+                            live events.</li>
+                        <li><strong>Project Managers:</strong> Assign tasks randomly when the workload is identical.
+                        </li>
+                        <li><strong>Gamers:</strong> Determine turn order or assign characters.</li>
+                    </ul>
+
+                    <h3>How It Works</h3>
+                    <p>Using the tool is simple:
+                        1. Type or paste your list of names into the text box.
+                        2. Ensure each name is on a new line.
+                        3. Click "Pick a Winner".
+                        4. The tool instantly displays one name from the list.
+                    </p>
+                    <p>You can keep clicking "Pick a Winner" to select multiple people one by one, or hit Reset to clear
+                        the list.</p>
+                </article>
+
+                <!-- Related Articles Link -->
+                <div class="mt-4 p-4 bg-gray-100 rounded">
+                    <h3>Related Guides</h3>
+                    <p>Want to know more about decision theory? Check out our guide:</p>
+                    <a href="/articles/decision-tools-guide.html" class="text-primary font-bold">The Ultimate Guide to
+                        Decision Making Tools &rarr;</a>
+                </div>
+
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <h3>Other Decision Tools</h3>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="yes-no-decision.html">Yes/No Oracle</a></li>
+                    <li><a href="spin-wheel.html">Spin Wheel</a></li>
+                    <li><a href="dice-roller.html">Dice Roller</a></li>
+                    <li><a href="flip-a-coin.html">Flip a Coin</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="../js/main.js"></script>
+    <script>
+        const pickBtn = document.getElementById('pickBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const namesInput = document.getElementById('namesInput');
+        const resultArea = document.getElementById('resultArea');
+
+        pickBtn.addEventListener('click', () => {
+            const text = namesInput.value;
+            if (!text.trim()) {
+                alert('Please enter at least one name.');
+                return;
+            }
+            const names = text.split('\n').map(n => n.trim()).filter(n => n.length > 0);
+            if (names.length === 0) {
+                alert('Please enter valid names.');
+                return;
+            }
+
+            // Animation effect
+            let counter = 0;
+            const interval = setInterval(() => {
+                resultArea.innerText = names[Math.floor(Math.random() * names.length)];
+                counter++;
+                if (counter > 10) {
+                    clearInterval(interval);
+                    const winner = names[Math.floor(Math.random() * names.length)];
+                    resultArea.innerHTML = `<span style="color:var(--success)">🎉 ${winner} 🎉</span>`;
+                }
+            }, 100);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            namesInput.value = '';
+            resultArea.innerText = 'Winner will appear here...';
+        });
+    </script>
+</body>
+
+</html>

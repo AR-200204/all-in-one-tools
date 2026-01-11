@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Flip a Coin Online. Heads or Tails? Instant 3D coin flip for decision making.">
+    <title>Flip a Coin - Heads or Tails Simulator</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .coin {
+            width: 150px;
+            height: 150px;
+            background: #cbd5e1;
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #475569;
+            border: 8px solid #94a3b8;
+            cursor: pointer;
+            transition: transform 1s;
+        }
+
+        .animate-flip {
+            animation: flip 1s ease-out;
+        }
+
+        @keyframes flip {
+            0% {
+                transform: rotateY(0);
+            }
+
+            50% {
+                transform: rotateY(1800deg);
+            }
+
+            /* Many spins */
+            100% {
+                transform: rotateY(3600deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header></header>
+    <main class="container" style="padding: 2rem 1rem;">
+        <div class="tool-layout">
+            <div class="main-content">
+                <h1>Flip a Coin</h1>
+                <p>Click the coin to flip it. Heads or Tails?</p>
+
+                <div class="tool-card text-center">
+                    <div id="coin" class="coin">Heads</div>
+                    <button id="flipBtn" class="btn mt-8">Flip Coin</button>
+                    <div id="resultText" class="mt-4 font-bold text-xl h-8"></div>
+                </div>
+
+                <article class="content-block mt-4">
+                    <h2>Probability of a Coin Toss</h2>
+                    <p>Theoretically, a fair coin has a 50/50 chance of landing on Heads or Tails. Our simulator allows
+                        you to flip as many times as you want without chasing a physical coin under the sofa.</p>
+                </article>
+
+                <div class="mt-4 p-4 bg-gray-100 rounded">
+                    <h3>Related Guides</h3>
+                    <a href="/articles/decision-tools-guide.html" class="text-primary font-bold">Decision Making Guide
+                        &rarr;</a>
+                </div>
+            </div>
+
+            <aside class="sidebar">
+                <h3>Random Tools</h3>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="dice-roller.html">Dice Roller</a></li>
+                    <li><a href="yes-no-decision.html">Yes/No Oracle</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="../js/main.js"></script>
+    <script>
+        const coin = document.getElementById('coin');
+        const resultText = document.getElementById('resultText');
+        const btn = document.getElementById('flipBtn');
+
+        function flip() {
+            resultText.innerText = '';
+            coin.classList.remove('animate-flip');
+            void coin.offsetWidth; // trigger reflow
+            coin.classList.add('animate-flip');
+
+            // Determine outcome immediately but show after animation
+            const isHeads = Math.random() < 0.5;
+
+            setTimeout(() => {
+                coin.innerText = isHeads ? 'Heads' : 'Tails';
+                resultText.innerText = isHeads ? 'It\'s Heads!' : 'It\'s Tails!';
+                resultText.style.color = isHeads ? 'var(--primary)' : 'var(--secondary)';
+            }, 1000); // Wait for animation
+        }
+
+        btn.addEventListener('click', flip);
+        coin.addEventListener('click', flip);
+    </script>
+</body>
+
+</html>

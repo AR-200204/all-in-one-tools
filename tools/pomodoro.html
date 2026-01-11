@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Free Pomodoro Timer online. Boost productivity with the 25-minute work / 5-minute break technique.">
+    <title>Pomodoro Timer - Focus & Study Timer</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <header></header>
+    <main class="container" style="padding: 2rem 1rem;">
+        <div class="tool-layout">
+            <div class="main-content">
+                <h1>Pomodoro Timer</h1>
+                <p>Stay focused using the Pomodoro Technique. Work for 25 minutes, break for 5.</p>
+
+                <div class="tool-card text-center">
+                    <div id="timerDisplay"
+                        style="font-size: 5rem; font-weight: 800; color: var(--text-main); font-variant-numeric: tabular-nums;">
+                        25:00</div>
+                    <div id="statusText" class="text-muted mb-4">Ready to work?</div>
+
+                    <div class="flex justify-center gap-4">
+                        <button id="startBtn" class="btn">Start Focus</button>
+                        <button id="breakBtn" class="btn btn-outline">Short Break (5m)</button>
+                        <button id="resetBtn" class="btn btn-outline">Reset</button>
+                    </div>
+                </div>
+
+                <article class="content-block mt-4">
+                    <h2>What is the Pomodoro Technique?</h2>
+                    <p>The Pomodoro Technique is a time management method developed by Francesco Cirillo. It uses a
+                        timer to break work into intervals, traditionally 25 minutes in length, separated by short
+                        breaks.</p>
+                    <h3>How to use:</h3>
+                    <ol class="list-decimal ml-6 mb-4">
+                        <li>Decide on the task to be done.</li>
+                        <li>Set the Pomodoro timer (typically for 25 minutes).</li>
+                        <li>Work on the task until the timer rings.</li>
+                        <li>Take a short break (5 minutes).</li>
+                        <li>Every 4 Pomodoros, take a longer break (15-30 minutes).</li>
+                    </ol>
+                </article>
+
+                <div class="mt-4 p-4 bg-gray-100 rounded">
+                    <h3>Related Guides</h3>
+                    <a href="/articles/productivity-tools-guide.html" class="text-primary font-bold">Productivity Guide
+                        &rarr;</a>
+                </div>
+            </div>
+
+            <aside class="sidebar">
+                <h3>Time Tools</h3>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="timer.html">Simple Timer</a></li>
+                    <li><a href="todo-list.html">To-Do List</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="../js/main.js"></script>
+    <script>
+        let timer;
+        let timeLeft = 25 * 60;
+        const display = document.getElementById('timerDisplay');
+        const startBtn = document.getElementById('startBtn');
+        const breakBtn = document.getElementById('breakBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const statusText = document.getElementById('statusText');
+
+        function updateDisplay() {
+            const m = Math.floor(timeLeft / 60);
+            const s = timeLeft % 60;
+            display.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            document.title = `${display.innerText} - Pomodoro`;
+        }
+
+        function startTimer() {
+            if (timer) clearInterval(timer);
+            timer = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateDisplay();
+                } else {
+                    clearInterval(timer);
+                    statusText.innerText = "Time's up!";
+                    new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play().catch(() => { });
+                }
+            }, 1000);
+            statusText.innerText = "Focus Mode On";
+        }
+
+        startBtn.addEventListener('click', () => {
+            timeLeft = 25 * 60;
+            updateDisplay();
+            startTimer();
+        });
+
+        breakBtn.addEventListener('click', () => {
+            timeLeft = 5 * 60;
+            updateDisplay();
+            startTimer();
+            statusText.innerText = "Enjoy your break!";
+        });
+
+        resetBtn.addEventListener('click', () => {
+            if (timer) clearInterval(timer);
+            timeLeft = 25 * 60;
+            updateDisplay();
+            statusText.innerText = "Ready to work?";
+            document.title = "Pomodoro Timer";
+        });
+    </script>
+</body>
+
+</html>

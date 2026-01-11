@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Need a quick answer? Use our Free Yes or No Oracle to make instant decisions. Neutral, unbiased, and fast.">
+    <title>Yes or No Decision Maker - Instant Oracle</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <header></header>
+    <main class="container" style="padding: 2rem 1rem;">
+        <div class="tool-layout">
+            <!-- Main Tool Area -->
+            <div class="main-content">
+                <h1>Yes or No Oracle</h1>
+                <p>Focused on a question? Click the button below to get your answer.</p>
+
+                <div class="tool-card text-center"
+                    style="min-height: 300px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <div id="answerDisplay"
+                        style="font-size: 5rem; font-weight: 800; margin-bottom: 2rem; color: var(--text-muted);">?
+                    </div>
+                    <button id="askBtn" class="btn" style="font-size: 1.25rem; padding: 1rem 3rem;">Ask the
+                        Oracle</button>
+                </div>
+
+                <!-- Explanatory Content -->
+                <article class="content-block mt-4">
+                    <h2>Why Use a Yes/No Generator?</h2>
+                    <p>Analysis paralysis is a real phenomenon. When faced with two relatively equal choices, or when
+                        you are simply unsure about a course of action, your brain can get potential stuck in a loop of
+                        overthinking. This tool acts as an external circuit breaker.</p>
+
+                    <h3>The Psychology of Random Decisions</h3>
+                    <p>Interestingly, often the moment the answer is revealed, you realize what you actually wanted. If
+                        the Oracle says "Yes" and you feel disappointed, then you know your true desire was "No". In
+                        this way, a random generator serves not just as a decision maker, but as a clarity tool.</p>
+
+                    <h3>Common Uses</h3>
+                    <ul style="list-style-type: disc; margin-left: 1.5rem;">
+                        <li><strong>Deciding on trivial matters:</strong> Should I order pizza? Should I go for a walk?
+                        </li>
+                        <li><strong>Breaking ties:</strong> When a group is split 50/50.</li>
+                        <li><strong>Gaming:</strong> As a replacement for a coin flip.</li>
+                    </ul>
+
+                    <p><em>Disclaimer: This tool is for entertainment purposes only. Do not use it for life-altering
+                            financial, medical, or legal decisions.</em></p>
+                </article>
+
+                <!-- Related Articles Link -->
+                <div class="mt-4 p-4 bg-gray-100 rounded">
+                    <h3>Related Guides</h3>
+                    <p>Learn more about overcoming indecision:</p>
+                    <a href="/articles/decision-tools-guide.html" class="text-primary font-bold">The Ultimate Guide to
+                        Decision Making Tools &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <h3>Other Decision Tools</h3>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="random-name-picker.html">Name Picker</a></li>
+                    <li><a href="flip-a-coin.html">Flip a Coin</a></li>
+                    <li><a href="what-to-watch.html">What to Watch?</a></li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="../js/main.js"></script>
+    <script>
+        const askBtn = document.getElementById('askBtn');
+        const answerDisplay = document.getElementById('answerDisplay');
+        const answers = ['YES', 'NO']; // Keep it simple and strict
+        const colors = { 'YES': 'var(--success)', 'NO': 'var(--error)' };
+
+        askBtn.addEventListener('click', () => {
+            // Animation
+            answerDisplay.style.color = 'var(--text-muted)';
+            let count = 0;
+            const interval = setInterval(() => {
+                answerDisplay.innerText = answers[count % 2];
+                count++;
+                if (count > 8) {
+                    clearInterval(interval);
+                    const final = Math.random() > 0.5 ? 'YES' : 'NO';
+                    answerDisplay.innerText = final;
+                    answerDisplay.style.color = colors[final];
+                }
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>
